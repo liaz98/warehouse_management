@@ -10,7 +10,7 @@ from django.db import models
 class AddressTable(models.Model):
     min = models.CharField(max_length=45, blank=True, null=True)
     max = models.CharField(max_length=45, blank=True, null=True)
-    storage_bin_address = models.ForeignKey('StorageBin', db_column='storage_bin_address', on_delete=models.CASCADE)
+    storage_bin_address = models.ForeignKey('StorageBin', db_column='storage_bin_address', on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
         db_table = 'address_table'
@@ -18,7 +18,7 @@ class AddressTable(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=45, blank=True, null=True)
     description = models.CharField(max_length=45, blank=True, null=True)
-    address_table = models.ForeignKey(AddressTable, on_delete=models.CASCADE)
+    address_table = models.ForeignKey(AddressTable, on_delete=models.CASCADE, blank=True, related_name='address_table')
 
     class Meta:
         db_table = 'product'
@@ -27,15 +27,15 @@ class Product(models.Model):
 class StorageBin(models.Model):
     address = models.IntegerField(primary_key=True)
     size = models.CharField(max_length=45, blank=True, null=True)
-    warehouse = models.ForeignKey('Warehouse', on_delete=models.CASCADE)
-    type = models.ForeignKey('Type', db_column='Type_id', on_delete=models.CASCADE)  # Field name made lowercase.
+    warehouse = models.ForeignKey('Warehouse', on_delete=models.CASCADE, blank=True, related_name='warehouse')
+    type = models.ForeignKey('Type', db_column='Type_id', on_delete=models.CASCADE, blank=True, related_name='type')  # Field name made lowercase.
 
     class Meta:
         db_table = 'storage_bin'
 
 class Type(models.Model):
     name = models.CharField(max_length=45, blank=True, null=True)
-    product = models.ForeignKey(Product, db_column='Product_id', on_delete=models.CASCADE)  # Field name made lowercase.
+    product = models.ForeignKey(Product, db_column='Product_id', on_delete=models.CASCADE, blank=True, related_name='product')  # Field name made lowercase.
 
     class Meta:
         db_table = 'type'
