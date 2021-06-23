@@ -14,7 +14,11 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+DATABASE_ENGINE = 'django.db.backends.mysql'
+DATABASE_NAME = 'warehouse'
+DATABASE_USER = 'root'
+DATABASE_PASSWORD = '123456'
+DEFAULT_AUTO_FIELD='django.db.models.AutoField'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -37,6 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'warehouse',
+    'django_admin_generator',
+    'inspectdb_refactor',
+
 ]
 
 MIDDLEWARE = [
@@ -75,8 +83,13 @@ WSGI_APPLICATION = 'warehouse_management.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': DATABASE_ENGINE,
+        'NAME': DATABASE_NAME,
+        'USER': DATABASE_USER,
+        'PASSWORD': DATABASE_PASSWORD,
+        'HOST': 'localhost',
+        # 'HOST': 'postgres',
+        'PORT': '3306',
     }
 }
 
